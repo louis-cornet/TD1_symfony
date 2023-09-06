@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="stylesheet" type="text/css" href="/public/css/styles.css">
+    <title>The Feed</title>
+    <meta charset="utf-8">
+</head>
+<body>
+<header>
+    <div id="titre" class="center">
+        <a href=""><span>The Feed</span></a>
+        <nav>
+            <a href="">Accueil</a>
+        </nav>
+    </div>
+</header>
+<main id="the-feed-main">
+    <div id="feed">
+        {% for publication in publications %}
+            <div class="feedy">
+                <div class="feedy-header">
+                    <a href="">
+                        <img class="avatar"
+                             src=""
+                             alt="avatar de l'utilisateur">
+                    </a>
+                    <div class="feedy-info">
+                        <span>Anonyme</span>
+                        <span> - </span>
+                        <span>{{ publication.datePublication|date("d/m/Y") }}</span>
+                        <p>{{ publication.message }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</main>
+</body>
+</html>

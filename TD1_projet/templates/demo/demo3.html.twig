@@ -1,0 +1,24 @@
+{% block body %}
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Demo</title>
+    </head>
+    <body>
+    <h1> Liste Courses</h1>
+    {% for error in app.flashes('error') %}
+        {{ error }}
+    {% endfor %}
+    <br>
+    <ul>
+        {% for key, value in courses %}
+            {% if value == 'Livre sur Symfony' %}
+                <strong><li>{{ key }} : {{ value }}</li></strong>
+            {% else %}
+                <li>{{ key }} : {{ value }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    </body>
+    </html>
+{% endblock %}
