@@ -2,30 +2,35 @@
 
 namespace App\Controller;
 
+use App\Form\PublicationType;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Publication;
+use App\Repository\PublicationRepository;
 class PublicationController extends AbstractController
 {
     #[Route('/', name: 'feed')]
-    public function feed(): Response
+    public function feed(Request $request, PublicationRepository $publicationRepository, EntityManagerInterface $entityManager): Response
     {
-        $publication1 = new Publication();
-        $publication1->setMessage("Coucou");
-        $publication1->setDatePublication(new \DateTime());
+        $publicationFrom = new Publication();
+        $form = $this->createForm(PublicationType::class, $publicationFrom, [
+            'method' => 'POST',
+            'action' => $this->generateURL('feed')
+        ]);
 
-        $publication2 = new Publication();
-        $publication2->setMessage("Je suis");
-        $publication2->setDatePublication(new \DateTime());
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($publicationFrom);
+            $entityManager->flush();
 
-        $publication3 = new Publication();
-        $publication3->setMessage("un Bot");
-        $publication3->setDatePublication(new \DateTime());
+            return $this->redirectToRoute('feed');
+        }
 
-        $publications =  array($publication1, $publication2, $publication3);
-
-        return $this->render("publication/feed.html.twig", ["publications" => $publications]);
+        $publications = $publicationRepository->findAllOrderedByDate();
+        return $this->render("publication/feed.html.twig", ["publications" => $publications, "form" => $form]);
     }
 }

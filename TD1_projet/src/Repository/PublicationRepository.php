@@ -21,6 +21,10 @@ class PublicationRepository extends ServiceEntityRepository
         parent::__construct($registry, Publication::class);
     }
 
+    public function findAllOrderedByDate() : array {
+        return $this->findBy([], ["datePublication" => "ASC"]);
+    }
+
 //    /**
 //     * @return Publication[] Returns an array of Publication objects
 //     */

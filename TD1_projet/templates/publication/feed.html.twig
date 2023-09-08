@@ -17,6 +17,18 @@
 </header>
 <main id="the-feed-main">
     <div id="feed">
+        {{ form_start(form, {'attr' : {'id' : 'formId', 'class' : 'formClass'}}) }}
+        <fieldset>
+            <legend>Nouveau feedy</legend>
+            <div>
+                {{ form_widget(form.message, {'id': "message", 'attr' : {"placeholder": "✏️ Veuillez ecrir le message de votre publication ici ✏️"}} ) }}
+            </div>
+            <div>
+                {{ form_widget(form.publier, {'id': "publier", 'label' : "👌 Valider le formulaire 👌"}) }}
+            </div>
+        </fieldset>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
         {% for publication in publications %}
             <div class="feedy">
                 <div class="feedy-header">
