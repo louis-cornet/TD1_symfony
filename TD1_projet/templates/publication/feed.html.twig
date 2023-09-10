@@ -15,6 +15,15 @@
         </nav>
     </div>
 </header>
+<div id="flashes-container">
+    {% if errors != "" %}
+        <!-- Pour chaque message du type "success" -->
+        <span class="flashes flashes-success">Success</span>
+        <!-- Pour chaque message du type "error" -->
+        <span class="flashes flashes-error">Erreur</span>
+    {% endif %}
+</div>
+<br>
 <main id="the-feed-main">
     <div id="feed">
         {{ form_start(form, {'attr' : {'id' : 'formId', 'class' : 'formClass'}}) }}

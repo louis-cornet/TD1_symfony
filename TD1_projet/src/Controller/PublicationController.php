@@ -30,7 +30,12 @@ class PublicationController extends AbstractController
             return $this->redirectToRoute('feed');
         }
 
+        $errors = $form->getErrors(true);
+        foreach ($errors as $error) {
+            $errorMsg = $error->getMessage();
+        }
+
         $publications = $publicationRepository->findAllOrderedByDate();
-        return $this->render("publication/feed.html.twig", ["publications" => $publications, "form" => $form]);
+        return $this->render("publication/feed.html.twig", ["publications" => $publications, "form" => $form, "errors" => $errors]);
     }
 }

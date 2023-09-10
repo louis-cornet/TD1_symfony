@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PublicationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PublicationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -15,6 +16,10 @@ class Publication
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 4, minMessage: 'Il faut au moins 4 caractères!')]
+    #[Assert\Length(max: 200, maxMessage: 'Le message est trop long, trouvez moyen de raccourcir vos propos')]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null;
 
