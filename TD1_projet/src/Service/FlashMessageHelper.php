@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Controller\PublicationController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-class FlashMessageHelper
+class FlashMessageHelper implements FlashMessageHelperInterface
 {
     public function __construct(
         private RequestStack $requestStack

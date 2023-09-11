@@ -14,7 +14,7 @@ class PublicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('message', TextareaType::class)
+            ->add('message', TextareaType::class, ['attr' => ['minlength' => 4, 'maxlength' => 200]])
             ->add('publier', SubmitType::class)
         ;
     }

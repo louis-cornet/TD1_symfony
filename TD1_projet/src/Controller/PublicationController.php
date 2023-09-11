@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\PublicationType;
 use App\Service\FlashMessageHelper;
+use App\Service\FlashMessageHelperInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Array_;
@@ -15,7 +16,7 @@ use App\Repository\PublicationRepository;
 class PublicationController extends AbstractController
 {
     #[Route('/', name: 'feed')]
-    public function feed(FlashMessageHelper $flashMessageHelper, Request $request, PublicationRepository $publicationRepository, EntityManagerInterface $entityManager): Response
+    public function feed(FlashMessageHelperInterface $flashMessageHelperInterface, Request $request, PublicationRepository $publicationRepository, EntityManagerInterface $entityManager): Response
     {
         $publicationFrom = new Publication();
         $form = $this->createForm(PublicationType::class, $publicationFrom, [
@@ -31,9 +32,15 @@ class PublicationController extends AbstractController
             return $this->redirectToRoute('feed');
         }
 
-        $flashMessageHelper->addFormErrorsAsFlash($form);
+        $flashMessageHelperInterface->addFormErrorsAsFlash($form);
 
         $publications = $publicationRepository->findAllOrderedByDate();
         return $this->render("publication/feed.html.twig", ["publications" => $publications, "form" => $form]);
     }
+
+//    #[Route('/', name: 'base')]
+//    public function base(Request $request): response
+//    {
+//        return $this->render("base.html.twig");
+//    }
 }
