@@ -26,14 +26,17 @@ class PublicationController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($publicationFrom);
             $entityManager->flush();
-
+            $this ->addFlash("success", "Success de création");
             return $this->redirectToRoute('feed');
         }
 
         $errors = $form->getErrors(true);
         foreach ($errors as $error) {
             $errorMsg = $error->getMessage();
+            $this ->addFlash("error", $errorMsg);
         }
+
+
 
         $publications = $publicationRepository->findAllOrderedByDate();
         return $this->render("publication/feed.html.twig", ["publications" => $publications, "form" => $form, "errors" => $errors]);

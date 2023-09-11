@@ -16,12 +16,14 @@
     </div>
 </header>
 <div id="flashes-container">
-    {% if errors != "" %}
+    {% for flashMsg in app.flashes("success") %}
         <!-- Pour chaque message du type "success" -->
-        <span class="flashes flashes-success">Success</span>
+        <span class="flashes flashes-success">{{ flashMsg }}</span>
+    {% endfor %}
+    {% for flashMsg in app.flashes("error") %}
         <!-- Pour chaque message du type "error" -->
-        <span class="flashes flashes-error">Erreur</span>
-    {% endif %}
+        <span class="flashes flashes-error">{{ flashMsg }}</span>
+    {% endfor %}
 </div>
 <br>
 <main id="the-feed-main">
