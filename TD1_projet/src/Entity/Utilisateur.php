@@ -7,8 +7,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
+#[UniqueEntity('login', message : "Cette valeur est déjà prise!")]
+#[UniqueEntity('adresseEmail', message : "Email existe déja")]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -21,7 +25,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Assert\Length(min: 4, minMessage: 'Il faut au moins 4 caractères!')]
     #[Assert\Length(max: 20, maxMessage: 'Votre Login est trop long')]
-    #[Assert\Unique()]
     private ?string $login = null;
 
     #[ORM\Column]
@@ -36,8 +39,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    #[Assert\Email(message: 'The email {{ value }} is not a valid email.')]
-    #[Assert\Unique()]
+    #[Assert\Email(message: 'Email incorrect')]
     private ?string $adresseEmail = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
