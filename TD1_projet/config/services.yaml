@@ -24,6 +24,6 @@ services:
     # please note that last definitions always *replace* previous ones
 
     App\Service\FlashMessageHelper: ~
-    App\Service\FlashMessageHelperInterface: '@App\Service\UtilisateurManager'
+    App\Service\FlashMessageHelperInterface: '@App\Service\FlashMessageHelper'
     App\Service\UtilisateurManager: ~
     App\Service\UtilisateurManagerInterface: '@App\Service\UtilisateurManager'

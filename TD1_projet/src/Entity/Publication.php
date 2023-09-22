@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PublicationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,6 +27,15 @@ class Publication
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $datePublication = null;
+
+    #[ORM\ManyToOne(inversedBy: 'publications')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateur $auteur = null;
+
+    public function __construct()
+    {
+        $this->auteur = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -58,5 +69,42 @@ class Publication
     public function prePersistDatePublication () : void
     {
         $this->datePublication = new  \DateTime();
+    }
+
+    /**
+     * @return Collection<int, Utilisateur>
+     */
+    public function getAuteur(): Collection
+    {
+        return $this->auteur;
+    }
+
+    public function addAuteur(Utilisateur $auteur): static
+    {
+        if (!$this->auteur->contains($auteur)) {
+            $this->auteur->add($auteur);
+            $auteur->setPublications($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAuteur(Utilisateur $auteur): static
+    {
+        if ($this->auteur->removeElement($auteur)) {
+            // set the owning side to null (unless already changed)
+            if ($auteur->getPublications() === $this) {
+                $auteur->setPublications(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function setAuteur(?Utilisateur $auteur): static
+    {
+        $this->auteur = $auteur;
+
+        return $this;
     }
 }

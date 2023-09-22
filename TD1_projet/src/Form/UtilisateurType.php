@@ -21,7 +21,10 @@ class UtilisateurType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('login', TextType::class)
+            ->add('login', TextType::class,
+                ["constraints" => [
+                    new Length(min: 4, max: 20, minMessage: 'Mdp trop court', maxMessage: 'vous devez renseigner un nom dutilisateur plus long'),
+                ]])
             ->add('adresseEmail', EmailType::class)
             ->add('plainPassword', PasswordType::class,
                 ['attr' => [

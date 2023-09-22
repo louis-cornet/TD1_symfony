@@ -28,6 +28,7 @@ class PublicationController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($publicationFrom);
             $entityManager->flush();
+            $this->denyAccessUnlessGranted('ROLE_USER');
             $this ->addFlash("success", "Success de création");
             return $this->redirectToRoute('feed');
         }

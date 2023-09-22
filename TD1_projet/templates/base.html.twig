@@ -14,7 +14,15 @@
                 <a href="{{ path('feed') }}"><span>The Feed</span></a>
                 <nav>
                     <a href="{{ path('feed') }}">Accueil Feed</a>
-                    <a href="{{ path('inscription') }}"><span>Inscription</span></a>
+                    {% if is_granted('ROLE_USER') %}
+                        <form method="post" action="{{ path('deconnexion') }}">
+                            <button id="btn-deconnexion">Déconnexion</button>
+                        </form>
+                    {% else %}
+                        <a href="{{ path('inscription') }}"><span>Inscription</span></a>
+                        <a href="{{ path('connexion') }}"><span>Connexion</span></a>
+                    {% endif %}
+
                 </nav>
             </div>
         </header>

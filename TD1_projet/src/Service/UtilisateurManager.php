@@ -8,12 +8,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UtilisateurManager implements UtilisateurManagerInterface
 {
-    protected $passwordHasher;
-
     public function __construct(
         #[Autowire('%dossier_photo_profil%')]
         private string $dossierPhotoProfil,
-        Private UserPasswordHasherInterface $userPasswordHasher
+        private UserPasswordHasherInterface $userPasswordHasher
         )
     {
     }
@@ -23,7 +21,7 @@ class UtilisateurManager implements UtilisateurManagerInterface
      */
     private function chiffrerMotDePasse(Utilisateur $utilisateur, ?string $plainPassword): void
     {
-        $hashed = $this->passwordHasher->hashPassword($utilisateur, $plainPassword);
+        $hashed = $this->userPasswordHasher->hashPassword($utilisateur, $plainPassword);
         $utilisateur->setPassword($hashed);
     }
 
