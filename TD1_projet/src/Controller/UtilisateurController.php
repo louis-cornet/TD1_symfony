@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
+use App\Repository\PublicationRepository;
 use App\Service\FlashMessageHelperInterface;
 use App\Service\UtilisateurManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -58,6 +59,17 @@ class UtilisateurController extends AbstractController
     {
         //Ne sera jamais appelée
         throw new \Exception("Cette route n'est pas censée être appelée. Vérifiez security.yaml");
+    }
+
+    #[Route('/utilisateurs/{login}/feed', name: 'pagePerso', methods: ["GET"])]
+    public function pagePerso(#[MapEntity] ?Utilisateur $utilisateur, PublicationRepository $publicationRepository): Response
+    {
+        if($utilisateur == null) {
+            $this ->addFlash("error", "Utilisateur inexistant");
+            return $this->redirectToRoute('feed');
+        }
+        $publications = $utilisateur->getPublications();
+        return $this->render('utilisateur/page_perso.html.twig', ["utilisateur" => $utilisateur, "publications" => $publications]);
     }
 
 }

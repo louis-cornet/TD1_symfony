@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Utilisateur;
 use App\Form\PublicationType;
 use App\Service\FlashMessageHelper;
 use App\Service\FlashMessageHelperInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Publication;
 use App\Repository\PublicationRepository;
+use function PHPUnit\Framework\never;
+
 class PublicationController extends AbstractController
 {
     #[Route('/', name: 'feed')]
@@ -24,8 +27,10 @@ class PublicationController extends AbstractController
             'action' => $this->generateURL('feed')
         ]);
 
+
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
+            $publicationFrom->setAuteur($this->getUser());
             $entityManager->persist($publicationFrom);
             $entityManager->flush();
             $this->denyAccessUnlessGranted('ROLE_USER');

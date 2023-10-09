@@ -48,6 +48,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $nomPhotoProfil = null;
 
     #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Publication::class, orphanRemoval: true)]
+    #[ORM\OrderBy(["datePublication" => "ASC"])]
     private Collection $publications;
 
     public function __construct()
@@ -149,16 +150,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPublications(): ?Publication
+    /**
+     * @return Collection<int, Publication>
+     */
+    public function getPublications(): Collection
     {
         return $this->publications;
-    }
-
-    public function setPublications(?Publication $publications): static
-    {
-        $this->publications = $publications;
-
-        return $this;
     }
 
     public function addPublication(Publication $publication): static

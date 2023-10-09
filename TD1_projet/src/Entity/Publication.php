@@ -28,14 +28,9 @@ class Publication
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $datePublication = null;
 
-    #[ORM\ManyToOne(inversedBy: 'publications')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'publications', fetch: 'EAGER')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Utilisateur $auteur = null;
-
-    public function __construct()
-    {
-        $this->auteur = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -71,34 +66,9 @@ class Publication
         $this->datePublication = new  \DateTime();
     }
 
-    /**
-     * @return Collection<int, Utilisateur>
-     */
-    public function getAuteur(): Collection
+    public function getAuteur(): ?Utilisateur
     {
         return $this->auteur;
-    }
-
-    public function addAuteur(Utilisateur $auteur): static
-    {
-        if (!$this->auteur->contains($auteur)) {
-            $this->auteur->add($auteur);
-            $auteur->setPublications($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAuteur(Utilisateur $auteur): static
-    {
-        if ($this->auteur->removeElement($auteur)) {
-            // set the owning side to null (unless already changed)
-            if ($auteur->getPublications() === $this) {
-                $auteur->setPublications(null);
-            }
-        }
-
-        return $this;
     }
 
     public function setAuteur(?Utilisateur $auteur): static

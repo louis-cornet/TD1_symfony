@@ -21,21 +21,7 @@
             {{ form_end(form) }}
             {% endif %}
             {% for publication in publications %}
-                <div class="feedy">
-                    <div class="feedy-header">
-                        <a href="">
-                            <img class="avatar"
-                                 src="img/utilisateurs/anonyme.png"
-                                 alt="avatar de l'utilisateur">
-                        </a>
-                        <div class="feedy-info">
-                            <span>Anonyme</span>
-                            <span> - </span>
-                            <span>{{ publication.datePublication|date("d/m/Y") }}</span>
-                            <p>{{ publication.message }}</p>
-                        </div>
-                    </div>
-                </div>
+                {{ include('publication/publication.html.twig', {'publication' : publication}) }}
             {% endfor %}
         </div>
     </main>

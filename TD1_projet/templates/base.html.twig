@@ -5,8 +5,7 @@
         <title>Mon Site</title>
     {% endblock %}
         <meta charset="utf-8">
-
-        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset("css/styles.css") }}">
         </head>
         <body>
         <header>
@@ -18,11 +17,13 @@
                         <form method="post" action="{{ path('deconnexion') }}">
                             <button id="btn-deconnexion">Déconnexion</button>
                         </form>
+                        <form method="GET" action="{{ path('pagePerso', {'login' : app.user.login}) }}">
+                            <button id="btn-deconnexion">Ma Page</button>
+                        </form>
                     {% else %}
                         <a href="{{ path('inscription') }}"><span>Inscription</span></a>
                         <a href="{{ path('connexion') }}"><span>Connexion</span></a>
                     {% endif %}
-
                 </nav>
             </div>
         </header>
