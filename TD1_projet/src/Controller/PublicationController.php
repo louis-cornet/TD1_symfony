@@ -30,22 +30,39 @@ class PublicationController extends AbstractController
             'action' => $this->generateURL('feed')
         ]);
 
-
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            $publicationFrom->setAuteur($this->getUser());
-            $entityManager->persist($publicationFrom);
-            $entityManager->flush();
-            $this->denyAccessUnlessGranted('ROLE_USER');
-            $this ->addFlash("success", "Success de création");
-            return $this->redirectToRoute('feed');
+        if($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $publicationFrom->setAuteur($this->getUser());
+                $entityManager->persist($publicationFrom);
+                $entityManager->flush();
+                $this->denyAccessUnlessGranted('ROLE_USER');
+                $this->addFlash("success", "Success de création");
+                return $this->redirectToRoute('feed');
+            }else{
+                $flashMessageHelperInterface->addFormErrorsAsFlash($form);
+            }
         }
-
-        $flashMessageHelperInterface->addFormErrorsAsFlash($form);
 
         $publications = $publicationRepository->findAllOrderedByDate();
         return $this->render("publication/feed.html.twig", ["publications" => $publications, "form" => $form]);
     }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/feedy/{id}', name: 'deletePublication ', options: ["expose" => true], methods: ['DELETE', 'POST'])]
+    public function deletePublication (#[MapEntity] ?Publication $publication, EntityManagerInterface $entityManager): Response
+    {
+        if ($publication) {
+            if ($this->getUser()->getUserIdentifier() === $publication->getAuteur()->getUserIdentifier()) {
+                $entityManager->remove($publication);
+                $entityManager->flush();
+                return new JsonResponse(null, 204);
+            }
+            return new JsonResponse(null, 403);
+        }
+        return new JsonResponse(null, 404);
+    }
+
 
 //    #[Route('/', name: 'base')]
 //    public function base(Request $request): response
