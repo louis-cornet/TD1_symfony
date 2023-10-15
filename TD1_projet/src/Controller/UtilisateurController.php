@@ -65,7 +65,7 @@ class UtilisateurController extends AbstractController
     public function pagePerso(#[MapEntity] ?Utilisateur $utilisateur, PublicationRepository $publicationRepository): Response
     {
         if($utilisateur == null) {
-            $this ->addFlash("error", "Utilisateur inexistant");
+            $this->addFlash("error", "Utilisateur inexistant");
             return $this->redirectToRoute('feed');
         }
         $publications = $utilisateur->getPublications();

@@ -19,8 +19,6 @@
             </fieldset>
             <!-- A compléter : champ caché contenant le jeton CSRF -->
             <input id="password" type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" required/>
-
-
         </form>
     </main>
 {% endblock %}

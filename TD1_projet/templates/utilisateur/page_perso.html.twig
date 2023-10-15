@@ -2,15 +2,16 @@
 {% block page_title %}
     <title>Page de {{ utilisateur.login }}</title>
 {% endblock %}
- {% block page_content %}
+{% block link_js %}
+    <script defer type="text/javascript" src="{{ asset("js/publications.js") }}"></script>
+{% endblock %}
+{% block page_content %}
      <main>
          <div class="center">
              <p id="titre-page-perso">Page de {{ utilisateur.login }}</p>
          </div>
          <div id="feed">
-             {% for publication in publications %}
-                 {{ include('publication/publication.html.twig', {'publication' : publication}) }}
-             {% endfor %}
+             {{ include('publication/publication.html.twig') }}
          </div>
      </main>
- {% endblock %}
+{% endblock %}

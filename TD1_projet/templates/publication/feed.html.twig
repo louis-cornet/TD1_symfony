@@ -2,6 +2,9 @@
 {% block page_title %}
     <title>The Feed</title>
 {% endblock %}
+{% block link_js %}
+    <script defer type="text/javascript" src="{{ asset("js/publications.js") }}"></script>
+{% endblock %}
 {% block page_content %}
     <br>
     <main id="the-feed-main">
@@ -20,9 +23,9 @@
             {{ form_rest(form) }}
             {{ form_end(form) }}
             {% endif %}
-            {% for publication in publications %}
-                {{ include('publication/publication.html.twig', {'publication' : publication}) }}
-            {% endfor %}
+
+            {{ include('publication/publication.html.twig') }}
+
         </div>
     </main>
 {% endblock %}

@@ -1,3 +1,4 @@
+{% for publication in publications %}
 <div class="feedy">
     <div class="feedy-header">
         <a href="{{ path('pagePerso', {'login' : publication.auteur.login}    ) }} ">
@@ -12,6 +13,12 @@
             <span> - </span>
             <span>{{ publication.datePublication|date("d/m/Y") }}</span>
             <p>{{ publication.message }}</p>
+            {% if app.user %}
+                {% if publication.auteur.login == app.user.login %}
+                    <button class="delete-feedy" data-publication-id="{{ publication.id }}">Supprimer</button>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
 </div>
+{% endfor %}
