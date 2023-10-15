@@ -51,6 +51,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OrderBy(["datePublication" => "ASC"])]
     private Collection $publications;
 
+    #[ORM\Column(options: ["default" => false])]
+    private ?bool $premium = false;
+
     public function __construct()
     {
         $this->publications = new ArrayCollection();
@@ -176,6 +179,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
                 $publication->setAuteur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isPremium(): ?bool
+    {
+        return $this->premium;
+    }
+
+    public function setPremium(bool $premium): static
+    {
+        $this->premium = $premium;
 
         return $this;
     }
