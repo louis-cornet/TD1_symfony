@@ -21,7 +21,19 @@ class Publication
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(min: 4, minMessage: 'Il faut au moins 4 caractères!')]
-    #[Assert\Length(max: 200, maxMessage: 'Le message est trop long, trouvez moyen de raccourcir vos propos')]
+
+    #[Assert\Length(
+        groups: ["publication:write:normal"],
+        min: 4,
+        max: 50,
+        maxMessage: 'Si vous voulez avoir acces a plus de characters, passez a premium.'
+    )]
+    #[Assert\Length(
+        groups: ["publication:write:premium"],
+        min: 4,
+        max: 200,
+        maxMessage: 'La limite de characters a été dépassé'
+    )]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null;
 

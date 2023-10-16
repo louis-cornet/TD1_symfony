@@ -24,6 +24,11 @@
                         <form method="GET" action="{{ path('pagePerso', {'login' : app.user.login}) }}">
                             <button id="btn-deconnexion">Ma Page</button>
                         </form>
+                        {% if app.user.isPremium() == false %}
+                        <form method="GET" action="{{ path('premiumInfos') }}">
+                            <button id="btn-deconnexion">Premium</button>
+                        </form>
+                        {% endif %}
                     {% else %}
                         <a href="{{ path('inscription') }}"><span>Inscription</span></a>
                         <a href="{{ path('connexion') }}"><span>Connexion</span></a>
